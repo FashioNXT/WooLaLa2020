@@ -5,6 +5,7 @@ import 'package:woolala_app/screens/login_screen.dart';
 import 'package:woolala_app/models/user.dart';
 import 'package:woolala_app/screens/follower_list_screen.dart';
 import 'package:woolala_app/screens/following_list_screen.dart';
+import 'package:woolala_app/screens/notifications.dart';
 import 'package:woolala_app/screens/search_screen.dart';
 import 'package:woolala_app/widgets/bottom_nav.dart';
 //import 'package:cached_network_image/cached_network_image.dart';
@@ -109,6 +110,32 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 //createButton(),
+                                Expanded(
+                                  child: FutureBuilder(
+                                    builder: (context, snapshot){
+                                      return Container(
+                                        padding: EdgeInsets.only(top: 3.0),
+                                        child: FlatButton(
+                                          onPressed: () => Navigator.pushReplacementNamed(context, '/notifications'),
+                                          key: ValueKey("Notifications"),
+                                          child: Container(
+                                            width: 280.0,
+                                            height: 35.0,
+                                            child: Text(
+                                              "Notifications", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                            ),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(color: Colors.black, width: 2.0),
+                                              borderRadius: BorderRadius.circular(6.0),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                )
                               ],
                             ),
                           ],

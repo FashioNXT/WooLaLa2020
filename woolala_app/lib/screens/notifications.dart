@@ -6,6 +6,8 @@ import 'package:woolala_app/screens/profile_screen.dart';
 import 'package:woolala_app/screens/login_screen.dart';
 
 class LocalNotificationWidget extends StatefulWidget {
+  final String userProfileEmail;
+  LocalNotificationWidget(this.userProfileEmail);
   @override
   _LocalNotificationWidgetState createState() =>
       _LocalNotificationWidgetState();
@@ -37,7 +39,7 @@ class _LocalNotificationWidgetState extends State<LocalNotificationWidget> {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.only(top: 3.0),
     child: ListView(
       children: <Widget>[
         title('Basics'),

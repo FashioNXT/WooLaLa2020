@@ -6,6 +6,7 @@ import 'package:woolala_app/screens/following_list_screen.dart';
 import 'package:woolala_app/screens/homepage_screen.dart';
 import 'package:woolala_app/screens/imageupload_screen.dart';
 import 'package:woolala_app/screens/login_screen.dart';
+import 'package:woolala_app/screens/notifications.dart';
 import 'package:woolala_app/screens/profile_screen.dart';
 import 'package:woolala_app/screens/search_screen.dart';
 import 'package:woolala_app/screens/post_screen.dart';
@@ -37,6 +38,7 @@ class WooLaLa extends StatelessWidget {
         '/followerlist' : (_) => FollowerListScreen(currentUser.email),
         '/followinglist' : (_) => FollowingListScreen(currentUser.email),
         '/createAccount' : (_) => CreateUserName(),
+        '/notifications' : (_) => LocalNotificationWidget(currentUser.email),
       },
     );
   }
