@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:woolala_app/screens/homepage_screen.dart';
 import 'package:woolala_app/main.dart';
 import 'package:woolala_app/screens/login_screen.dart';
@@ -27,12 +27,29 @@ class _ProfilePageState extends State<ProfilePage> {
   User profilePageOwner;
   bool checker = false;
   User viewingUser;
-
-
+  final notifications = FlutterLocalNotificationsPlugin();
+  final _scaffoldGlobalKey = GlobalKey<ScaffoldState>();
 
   void initState(){
     super.initState();
+
+    final settingsAndroid = AndroidInitializationSettings('w_logo');
+    final settingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: (id, title, body, payload) =>
+            onSelectNotification(payload));
+
+    notifications.initialize(
+        InitializationSettings(android: settingsAndroid, iOS: settingsIOS),
+        onSelectNotification: onSelectNotification);
   }
+
+  Future onSelectNotification(String payload) async =>
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProfilePage(currentUser.email)),
+      );
 
   createProfileTop() {
     return FutureBuilder(
@@ -267,10 +284,8 @@ class _ProfilePageState extends State<ProfilePage> {
               FutureBuilder(
                 future: follow(currentUser.userID, viewingUser.userID),
                 builder:(context, snapshot){}
-
               );
-              final localNotification = new LocalNotificationWidget(currentUser.email);
-              //showOngoingNotification(localNotification.notifications, title: 'Title', body: 'Body');
+              showOngoingNotification(notifications, title: 'Title', body: 'Body');
               Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
