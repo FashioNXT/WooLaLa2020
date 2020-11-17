@@ -15,6 +15,7 @@ class LocalNotificationWidget extends StatefulWidget {
 
 class _LocalNotificationWidgetState extends State<LocalNotificationWidget> {
   final notifications = FlutterLocalNotificationsPlugin();
+  final _scaffoldGlobalKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,73 +39,55 @@ class _LocalNotificationWidgetState extends State<LocalNotificationWidget> {
   );
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.only(top: 3.0),
-    child: ListView(
-      children: <Widget>[
-        title('Basics'),
-        RaisedButton(
-          child: Text('Show notification'),
-          onPressed: () => showOngoingNotification(notifications,
+  Widget build(BuildContext context){
+    return Scaffold(
+      key: _scaffoldGlobalKey,
+      appBar: AppBar(
+        leading: BackButton(
+        color: Colors.white,
+        onPressed: () => {Navigator.pushReplacementNamed(context, '/profile')},
+        ),
+        iconTheme: IconThemeData(color: Colors.blue),
+        title: Text('Notifications', style: TextStyle(color: Colors.white),),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.done, color: Colors.white, size: 30.0,),
+            onPressed: () => {
+              notifications.cancelAll,
+            },
+          )
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          title('Basics'),
+          RaisedButton(
+            child: Text('Show notification'),
+            onPressed: () => showOngoingNotification(notifications,
               title: 'Tite', body: 'Body'),
-        ),
-        RaisedButton(
-          child: Text('Replace notification'),
-          onPressed: () => showOngoingNotification(notifications,
-              title: 'ReplacedTitle', body: 'ReplacedBody'),
-        ),
-        RaisedButton(
-          child: Text('Other notification'),
-          onPressed: () => showOngoingNotification(notifications,
-              title: 'OtherTitle', body: 'OtherBody', id: 20),
-        ),
-        const SizedBox(height: 32),
-        title('Feautures'),
-        RaisedButton(
-          child: Text('Silent notification'),
-          onPressed: () => showSilentNotification(notifications,
-              title: 'SilentTitle', body: 'SilentBody', id: 30),
-        ),
-        const SizedBox(height: 32),
-        title('Cancel'),
-        RaisedButton(
-          child: Text('Cancel all notification'),
-          onPressed: notifications.cancelAll,
-        ),
-      ],
-    ),
+          ),
+          const SizedBox(height: 32),
+          title('Cancel'),
+          RaisedButton(
+            child: Text('Cancel all notification'),
+            onPressed: notifications.cancelAll,
+          ),
+        ],
+      ),
   );
 
-  Widget title(String text) => Container(
-    margin: EdgeInsets.symmetric(vertical: 4),
-    child: Text(
-      text,
-      style: Theme.of(context).textTheme.title,
-      textAlign: TextAlign.center,
-    ),
-  );
+
 }
 
-NotificationDetails get _noSound {
-  final androidChannelSpecifics = AndroidNotificationDetails(
-    'silent channel id',
-    'silent channel name',
-    'silent channel description',
-    playSound: false,
-  );
-  final iOSChannelSpecifics = IOSNotificationDetails(presentSound: false);
+Widget title(String text) => Container(
+  margin: EdgeInsets.symmetric(vertical: 4),
+  child: Text(
+    text,
+    style: Theme.of(context).textTheme.title,
+    textAlign: TextAlign.center,
+  ),
+);
 
-  return NotificationDetails(android: androidChannelSpecifics, iOS: iOSChannelSpecifics);
-}
-
-Future showSilentNotification(
-    FlutterLocalNotificationsPlugin notifications, {
-      @required String title,
-      @required String body,
-      int id = 0,
-    }) =>
-    _showNotification(notifications,
-        title: title, body: body, id: id, type: _noSound);
 
 NotificationDetails get _ongoing {
   final androidChannelSpecifics = AndroidNotificationDetails(
@@ -137,3 +120,4 @@ Future _showNotification(
       int id = 0,
     }) =>
     notifications.show(id, title, body, type);
+}
