@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
+import 'package:woolala_app/models/user.dart';
+import 'package:woolala_app/screens/homepage_screen.dart';
 import 'package:woolala_app/screens/profile_screen.dart';
 import 'package:woolala_app/screens/login_screen.dart';
+import 'package:woolala_app/screens/notifications_helper.dart';
 
 class LocalNotificationWidget extends StatefulWidget {
   final String userProfileEmail;
@@ -31,40 +37,43 @@ class _LocalNotificationWidgetState extends State<LocalNotificationWidget> {
         onSelectNotification: onSelectNotification);
   }
 
-  Future onSelectNotification(String payload) async => await Navigator.push(
-      context,
-      MaterialPageRoute(
-      builder: (BuildContext context) =>
-          ProfilePage(currentUser.email)),
-  );
+  Future onSelectNotification(String payload) async =>
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProfilePage(currentUser.email)),
+      );
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldGlobalKey,
       appBar: AppBar(
         leading: BackButton(
-        color: Colors.white,
-        onPressed: () => {Navigator.pushReplacementNamed(context, '/profile')},
+          color: Colors.white,
+          onPressed: () =>
+          {
+            Navigator.pushReplacementNamed(context, '/profile')
+          },
         ),
         iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Notifications', style: TextStyle(color: Colors.white),),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.done, color: Colors.white, size: 30.0,),
-            onPressed: () => {
-              notifications.cancelAll,
-            },
+            icon: Icon(Icons.clear, color: Colors.white, size: 30.0,),
+            onPressed: notifications.cancelAll,
           )
         ],
       ),
       body: ListView(
         children: <Widget>[
-          title('Basics'),
+          title('Basic Tests'),
           RaisedButton(
             child: Text('Show notification'),
-            onPressed: () => showOngoingNotification(notifications,
-              title: 'Tite', body: 'Body'),
+            onPressed: () =>
+                showOngoingNotification(notifications,
+                    title: 'Title', body: 'Body'),
           ),
           const SizedBox(height: 32),
           title('Cancel'),
@@ -74,50 +83,19 @@ class _LocalNotificationWidgetState extends State<LocalNotificationWidget> {
           ),
         ],
       ),
-  );
+    );
+  }
 
-
-}
-
-Widget title(String text) => Container(
-  margin: EdgeInsets.symmetric(vertical: 4),
-  child: Text(
-    text,
-    style: Theme.of(context).textTheme.title,
-    textAlign: TextAlign.center,
-  ),
-);
-
-
-NotificationDetails get _ongoing {
-  final androidChannelSpecifics = AndroidNotificationDetails(
-    'your channel id',
-    'your channel name',
-    'your channel description',
-    importance: Importance.max,
-    priority: Priority.high,
-    ongoing: true,
-    autoCancel: false,
-  );
-  final iOSChannelSpecifics = IOSNotificationDetails();
-  return NotificationDetails(android: androidChannelSpecifics, iOS: iOSChannelSpecifics);
-}
-
-Future showOngoingNotification(
-    FlutterLocalNotificationsPlugin notifications, {
-      @required String title,
-      @required String body,
-      int id = 0,
-    }) =>
-    _showNotification(notifications,
-        title: title, body: body, id: id, type: _ongoing);
-
-Future _showNotification(
-    FlutterLocalNotificationsPlugin notifications, {
-      @required String title,
-      @required String body,
-      @required NotificationDetails type,
-      int id = 0,
-    }) =>
-    notifications.show(id, title, body, type);
+  Widget title(String text) =>
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 4),
+        child: Text(
+          text,
+          style: Theme
+              .of(context)
+              .textTheme
+              .title,
+          textAlign: TextAlign.center,
+        ),
+      );
 }

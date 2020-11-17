@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart';
 import 'package:woolala_app/screens/homepage_screen.dart';
 import 'package:woolala_app/main.dart';
 import 'package:woolala_app/screens/login_screen.dart';
 import 'package:woolala_app/models/user.dart';
 import 'package:woolala_app/screens/follower_list_screen.dart';
 import 'package:woolala_app/screens/following_list_screen.dart';
-import 'package:woolala_app/screens/notifications.dart';
+import 'package:woolala_app/screens/notifications_helper.dart';
+import 'package:woolala_app/screens/notifications_widget.dart';
 import 'package:woolala_app/screens/search_screen.dart';
 import 'package:woolala_app/widgets/bottom_nav.dart';
 //import 'package:cached_network_image/cached_network_image.dart';
@@ -25,6 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
   User profilePageOwner;
   bool checker = false;
   User viewingUser;
+
+
 
   void initState(){
     super.initState();
@@ -265,6 +269,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder:(context, snapshot){}
 
               );
+              final localNotification = new LocalNotificationWidget(currentUser.email);
+              //showOngoingNotification(localNotification.notifications, title: 'Title', body: 'Body');
               Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(

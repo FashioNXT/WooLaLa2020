@@ -22,7 +22,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:woolala_app/screens/post_screen.dart';
 import 'package:woolala_app/screens/profile_screen.dart';
 import 'package:woolala_app/screens/search_screen.dart';
-import 'package:woolala_app/screens/notifications.dart';
+import 'package:woolala_app/screens/notifications_widget.dart';
 import 'package:woolala_app/widgets/bottom_nav.dart';
 
 
