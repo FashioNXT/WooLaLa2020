@@ -138,7 +138,7 @@ class _FollowingListScreenState extends State<FollowingListScreen> {
             },
           );
         }
-        else if (snapshot.hasError || followingList.length == 0) {
+        else if (snapshot.hasError) {
           return Center(child: Text("No Results"));
         } else {
           return Center(child: CircularProgressIndicator());

@@ -7,9 +7,10 @@ class Post {
   final String Comments;
   final double CumulativeRating;
   final int NumRatings;
+  List WouldBuy;
 
   Post({
-    this.ID, this.UserID, this.ImageID, this.Date, this.Description, this.Comments, this.CumulativeRating, this.NumRatings,
+    this.ID, this.UserID, this.ImageID, this.Date, this.Description, this.Comments, this.CumulativeRating, this.NumRatings, this.WouldBuy,
   });
 
   Post.fromJSON(Map<String, dynamic> json)
@@ -20,7 +21,8 @@ class Post {
       Description = json["Description"],
       Comments = json["Comments"],
       CumulativeRating = json["CumulativeRating"],
-      NumRatings = json["NumRatings"];
+      NumRatings = json["NumRatings"],
+      WouldBuy = json["WouldBuy"];
 
   Map<String, dynamic> toJSON() => {
     "ID" : ID,
@@ -31,5 +33,6 @@ class Post {
     "Comments" : Comments,
     "CumulativeRating" : CumulativeRating,
     "NumRatings" : NumRatings,
+    "WouldBuy" : WouldBuy,
   };
 }
