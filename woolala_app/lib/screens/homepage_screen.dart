@@ -53,6 +53,25 @@ Widget starSlider(String postID) =>
       },
     );
 
+Future<http.Response> addUserToWouldBuyList(String postID, String userID) {
+  return http.post(
+    domain + '/wouldBuy/' + postID + '/' + userID,
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({}),
+  );
+}
+
+Widget iWouldBuyButton(String postID) =>
+  IconButton(
+    icon: new Icon(Icons.shopping_cart),
+    onPressed: () {
+      print("Shopping Cart Pressed");
+      addUserToWouldBuyList(postID, currentUser.userID);
+    },
+  );
+
 Future loadMusic(String sound) async {
   if (sound == "fuck") {
     advancedPlayer = await AudioCache().play("Sounds/ashfuck.mp3");
@@ -259,6 +278,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                 textAlign: TextAlign.left))),
                 Center(child: Padding(padding: EdgeInsets.all(5), child:Text(postInfo.data[3], textAlign: TextAlign.left))),
                 Center(child: starSlider(postID)),
+                Center(child: iWouldBuyButton(postID)),
                 Container(
                 margin: const EdgeInsets.all(8),
                 color: Colors.grey,

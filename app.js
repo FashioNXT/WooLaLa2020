@@ -215,3 +215,24 @@ app.post("/unfollow/:you/:them", (request, response) => {
     });
     response.send({});
 });
+
+app.get("/wouldBuyAlready/:postID/:userID", (request, response) => {
+    var post = request.params.postID;
+    var user = request.params.userID;
+
+    collection.findOne({"postID":post, wouldBuy: user}, function(err, res) {
+        console.log(user + "is already on the list wouldBuy for post: " + post);
+    });
+    response.send({});
+});
+
+app.post("/wouldBuy/:postID/:userID", (request, response) => {
+    var post = request.params.postID;
+    var user = request.params.userID;
+    var updateWouldBuyList = { $push: {wouldBuy: user}};
+
+    collection.updateOne({"postID":post}, updateWouldBuyList, function(err, res) {
+        console.log(user + "has been added to the wouldBuy List for post: " + post);
+    });
+    response.send({});
+});
